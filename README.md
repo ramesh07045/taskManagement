@@ -1,97 +1,152 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 📌 Task Management App
 
-# Getting Started
+A simple and efficient **Task Management App** built with **React Native CLI** and **TypeScript**.  
+It helps users organize daily tasks with features like adding, updating, deleting, and marking tasks as completed.  
+The app integrates **Redux Toolkit** for state management and **Firebase** for backend services.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+---
 
-## Step 1: Start Metro
+## 🚀 Features
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- ✅ Create, update, and delete tasks  
+- 📂 Organize tasks by categories  
+- ⏰ Set due dates  
+- 🌓 **Dark mode** (system + in-app toggle)  
+- 🔔 **Push notifications** using **Firebase Cloud Messaging** (due reminders, status updates)  
+- ☁️ **Firebase Auth** (email/password) & **Firestore** (task storage)  
+- 🔄 **Redux Toolkit** for efficient state management  
+- 💾 **Offline-first** with Redux Persist & Firestore’s local cache  
+- 🎨 Smooth animations with **Reanimated**
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+---
 
-```sh
-# Using npm
-npm start
+##    Screen Record
+    https://drive.google.com/drive/folders/1_2wcfC3I-aTyUWOYdcZJkkeLvblJq55_?usp=drive_link
 
-# OR using Yarn
-yarn start
-```
+---
 
-## Step 2: Build and run your app
+## 🛠️ Tech Stack
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+- [React Native CLI](https://reactnative.dev/)  
+- [TypeScript](https://www.typescriptlang.org/)  
+- [Redux Toolkit](https://redux-toolkit.js.org/)  
+- [Firebase](https://firebase.google.com/)  
+- [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/)  
 
-### Android
+---
 
-```sh
-# Using npm
-npm run android
+## 📂 Project Structure
 
-# OR using Yarn
-yarn android
-```
+├── android/ # Native Android project files
+├── ios/ # Native iOS project files
+├── server/ # (Optional) Backend/server configs
+├── src/ # App source code
+│ ├── assets/ # Fonts, images, etc.
+│ ├── constants/ # App constants (colors, strings)
+│ ├── redux/ # Redux store & slices
+│ │ ├── slice/ # Individual feature slices
+│ │ └── store.ts # Redux store setup
+│ ├── screens/ # All app screens
+│ │ ├── auth/ # Login / Register screens
+│ │ ├── dashboard/ # Main dashboard
+│ │ ├── profile/ # User profile
+│ │ ├── taskDetails/ # Task detail & update screen
+│ │ └── topTab/ # Top tab navigation screens
+│ ├── utils/ # Utility/helper functions
+│ └── App.tsx # Root component
+├── .eslintrc.js # ESLint configuration
+├── .prettierrc.js # Prettier configuration
+├── app.json # React Native app config
+├── babel.config.js # Babel configuration
+├── package.json
+├── tsconfig.json
+└── README.md
 
-### iOS
+---
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## ⚡ Installation
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/task-management-app.git
+   cd task-management-app
+2. Install dependencies:
 
-```sh
-bundle install
-```
+    bash
+    npm install
+    # or
+    yarn install
+3. Install iOS dependencies (Mac only):
 
-Then, and every time you update your native dependencies, run:
+    bash
+    cd ios && pod install && cd ..
+4. Run the app:
 
-```sh
-bundle exec pod install
-```
+    bash
+    npx react-native run-android
+    npx react-native run-ios
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+---
 
-```sh
-# Using npm
-npm run ios
+## 🗂️ State Management Approach
 
-# OR using Yarn
-yarn ios
-```
+    The app uses Redux Toolkit for predictable and scalable state management.
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+    Slices: Each feature (e.g., auth, tasks, theme) is represented as a Redux slice in src/redux/slice/.
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+    Async Thunks: For Firestore operations (fetching tasks, adding tasks, updating status), async thunks are used to handle side effects.
 
-## Step 3: Modify your app
+    Normalization: Tasks are stored in a normalized structure (array + dictionary) to improve lookup and reduce redundancy.
 
-Now that you have successfully run the app, let's make changes!
+    Integration with Firestore:
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+    When online → Redux state is synced with Firestore in real time.
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+    When offline → Redux state serves data from local storage and syncs automatically when back online.
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+    This approach ensures smooth user experience, offline-first support, and scalable code architecture.
 
-## Congratulations! :tada:
+---
 
-You've successfully run and modified your React Native App. :partying_face:
+## 📶 Offline Sync Strategy
 
-### Now what?
+The app is designed to work **seamlessly offline** and sync when network becomes available again.  
+The core strategy involves:
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+1. **Local Storage with AsyncStorage**  
+   - All tasks are cached locally (`taskList`) for instant offline access.  
+   - Pending operations are queued in a `pendingKey` list.
 
-# Troubleshooting
+2. **Pending Operations Queue**  
+   - Each offline action is stored as a `PendingOperation` object:  
+     ```ts
+     type PendingOperation =
+       | { type: "add" | "update", task: Task }
+       | { type: "delete", id: string };
+     ```
+   - Examples:  
+     - Adding a task while offline → `{ type: "add", task }`  
+     - Updating a task → `{ type: "update", task }`  
+     - Deleting a task → `{ type: "delete", id }`
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+3. **Replay on Reconnect**  
+   - On app launch or when the user goes back online, the app:  
+     - Reads pending operations from `AsyncStorage`.  
+     - Executes them sequentially against **Firestore** (`addTaskToFirebase`, `updateTaskInFirebase`, `deleteTaskFromFirebase`).  
+     - Clears the pending queue after success.  
+   - This ensures no data loss and correct ordering of actions.
 
-# Learn More
+4. **Two Sources of Truth**  
+   - **Offline mode** → Redux state + AsyncStorage is the source of truth.  
+   - **Online mode** → Firestore is the source of truth; Redux state + AsyncStorage are updated after sync.
 
-To learn more about React Native, take a look at the following resources:
+5. **Conflict Handling**  
+   - The strategy prioritizes **last write wins** (the most recent update locally overwrites the previous state in Firestore).  
+   - If needed, additional rules (timestamps, versioning) can be added in the future.
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## AI Usage Disclosure
+    Firebase Notifications – Implemented with guidance from ChatGPT.
+    Animations – Implemented with support from GitHub Copilot.
+    Toggle Functionality – Assisted by GitHub Copilot.
+    Dashboard List Animations – Assisted by GitHub Copilot.
+    Firestore Integration – Implemented with guidance from ChatGPT.
