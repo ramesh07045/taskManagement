@@ -69,7 +69,7 @@ The app integrates **Redux Toolkit** for state management and **Firebase** for b
 1. Clone the repository:
    ```bash
    git clone https://github.com/ramesh07045/taskManagement
-   cd task-management-app
+   cd taskManagement
 2. Install dependencies:
 
     bash
